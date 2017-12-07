@@ -8,6 +8,9 @@
 
 
 local function OnPlayerBrokenBlock(a_Player, a_BlockX, a_BlockY, a_BlockZ)
+	if(a_Player:GetWorld():GetName() == "north") then
+		return false
+	end
 	-- Update the area's DateLastChanged:
 	local Area = FindPlayerAreaByCoords(a_Player, a_BlockX, a_BlockZ)
 	if (Area ~= nil) then
@@ -32,8 +35,8 @@ local function OnPlayerDestroyed(a_Player)
 	So for now we "leak" the areas, it shouldn't be too much anyway - a few kilobytes at most per each unique
 	playername.
 	--]]
-	-- RemovePlayerAreas(a_Player)
-	-- RemovePlayerAllowances(a_Player)
+	RemovePlayerAreas(a_Player)
+	RemovePlayerAllowances(a_Player)
 end
 
 
@@ -41,6 +44,9 @@ end
 
 
 local function OnPlayerLeftClick(a_Player, a_BlockX, a_BlockY, a_BlockZ, a_BlockFace, a_Status)
+	if(a_Player:GetWorld():GetName() == "north") then
+		return false
+	end
 	if ((a_BlockFace >= 0) and (HandleTemplatingLeftClick(a_Player, a_BlockX, a_BlockZ))) then
 		return true;
 	end
@@ -58,6 +64,9 @@ end
 
 
 local function OnPlayerPlacedBlock(a_Player, a_BlockX, a_BlockY, a_BlockZ)
+	if(a_Player:GetWorld():GetName() == "north") then
+		return false
+	end
 	-- Update the area's DateLastChanged:
 	local Area = FindPlayerAreaByCoords(a_Player, a_BlockX, a_BlockZ)
 	if (Area ~= nil) then
@@ -74,6 +83,9 @@ end
 
 
 local function OnPlayerPlacingBlock(a_Player, a_BlockX, a_BlockY, a_BlockZ, a_BlockType, a_BlockMeta)
+	if(a_Player:GetWorld():GetName() == "north") then
+		return false
+	end
 	local CanInteract, Reason = CanPlayerInteractWithBlock(a_Player, a_BlockX, a_BlockY, a_BlockZ);
 	if (CanInteract) then
 		return false;
@@ -87,6 +99,9 @@ end
 
 
 local function OnPlayerRightClick(a_Player, a_BlockX, a_BlockY, a_BlockZ, a_BlockFace, a_CursorX, a_CursorY, a_CursorZ, a_Status)
+	if(a_Player:GetWorld():GetName() == "north") then
+		return false
+	end
 	if (a_BlockFace < 0) then
 		-- This really means "use item" and no valid coords are given
 		return false;
@@ -115,6 +130,9 @@ end
 
 
 local function OnPlayerSpawned(a_Player)
+	if(a_Player:GetWorld():GetName() == "north") then
+		return false
+	end
 	-- Read this player's areas for this world:
 	local WorldName = a_Player:GetWorld():GetName();
 	local PlayerName = a_Player:GetName();
